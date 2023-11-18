@@ -1,13 +1,15 @@
 <template>
-  <div class="header">
-    <div class="author">
-      <el-avatar>{{review.user.name}}</el-avatar>
+  <div v-if="review_in_list">
+    <div class="header">
+      <div class="author">
+        <el-avatar>{{review.user.name}}</el-avatar>
+      </div>
+      <div class="likes">likes:{{ review.likes }}</div>
+      <div class="timestamp">{{review.create_time}}</div>
     </div>
-    <div class="likes">likes:{{ review.likes }}</div>
-    <div class="timestamp">{{review.create_time}}</div>
-  </div>
-  <div class="contentbox">
-    <div class="content">{{ review.content }}</div>
+    <div class="contentbox">
+      <div class="content">{{ review.content }}</div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +24,9 @@ export default {
     props: {
         review: {
             type: Object,
+        },
+        review_in_list: {
+            default: true
         }
     }
 };

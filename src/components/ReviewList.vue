@@ -1,9 +1,8 @@
 
 <template>
     <div class="reviews">
-        <p>search and selections</p>
-            <div v-for="item in review_list">
-                <Review :review_in_list="true" :review="item"/>
+        <div v-for="item in review_list">
+            <Review :review_in_list=true :review="item"/>
             <br>
         </div>
     </div>
@@ -31,7 +30,11 @@ export default {
     },
 
     props: {
-        review_list: Array
+        review_list: Array,
+        total: {
+            type: Number,
+            default: 10
+        },
     }
 };
 </script>

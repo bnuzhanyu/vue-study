@@ -14,7 +14,15 @@
     <div class="container">
       <el-tabs class="tabs" tab-position=left type=border-card stretch=true style="width: 100%;">
           <el-tab-pane label="Review">
+            <!--selctions for semester-->
+            <div>
+              <el-select v-model="review_search_condition.semester_value" filterable>
+                <el-option v-for="item in semester_options" :key="item.value" :label="item.label" :value="item.value"/>
+              </el-select>
+              <el-button type="primary" @click="review_search">Search</el-button>
+            </div>
             <ReviewList :review_list="review_list"></ReviewList>
+            <el-pagination background layout="prev, pager, next" :total="review_page_info.total" @current-change="review_page_change"/>
           </el-tab-pane>
           <el-tab-pane label="Recommend">
             <p>recommend showed here</p>
@@ -42,6 +50,19 @@ export default {
               this.create_review('Cindy', 'review3', 'Spring 2024', '2023-11-07 13:34:00', 222),
               this.create_review('David', 'review4', 'Autumn 2024', '2023-11-08 13:34:00', 23),
           ],
+          review_search_condition: {
+            semester_value: 'semester',
+          },
+          semester_options: [
+            {value: 'All', label: 'All'},
+            {value: 'Spring2024', label: 'Spring 2024'},
+            {value: 'Autumn2024', label: 'Autumn 2024'},
+          ],
+          review_page_info: { 
+            page: 1,
+            total: 1000,
+            page_size: 10,
+          },
       };
   },
 
@@ -53,13 +74,24 @@ export default {
       selectTab(tab) {
           this.activeTab = tab;
       },
+
+      review_search(e) {
+        console.log(e)
+        console.log(this.review_search_condition)
+      },
+
+      review_page_change(page) {
+        this.review_page_info.page = page
+        //TODO: search page
+      },
+
       create_review(username, content, semester, create_time, likes) {
           return {
-              'user': {'name': username},
-              'content': content,
-              'semester': semester,
-              'create_time': create_time,
-              'likes': likes,
+              user: {name: username},
+              content: content,
+              semester: semester,
+              create_time: create_time,
+              likes: likes,
           }
       }
   },
