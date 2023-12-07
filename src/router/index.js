@@ -1,10 +1,12 @@
 
+import { disabledTimeListsProps } from 'element-plus/es/components/time-picker/src/props/shared';
 import { createRouter, createWebHashHistory} from 'vue-router'
 
 const routes = [
   { path: '/', redirect: '/contents'},
   { path: '/contents',  component:() => import('../components/Content.vue'), props: true }, 
   { path: '/login', component:() => import('../components/Login.vue') },
+  { path: '/profile', component:() => import('../components/Profile.vue') },
 ];
 
 const router = createRouter({

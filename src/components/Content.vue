@@ -5,7 +5,7 @@
           <p>Sweety Course</p>
       </div>
       <!-- avatar in up right -->
-      <div class="user-info">
+      <div class="user-info" @click="navigateToProfile">
           <el-avatar :size="45" :src=login_user.avatar></el-avatar>
           <div class="name">{{ login_user.name }}</div>
       </div>
@@ -93,6 +93,10 @@ export default {
               create_time: create_time,
               likes: likes,
           }
+      },
+
+      navigateToProfile() {
+        this.$router.push({ path: '/profile' , query: { uni: 'natalie'}});
       }
   },
 };
