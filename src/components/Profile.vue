@@ -1,49 +1,54 @@
 <template>
     <div class="profile">
-      <div class="info-item">
-        <label>name:</label>
-        <span>{{ profile.name }}</span>
+      <div class="info-item" v-for="(index, label) in profile" :key="index">
+        <div v-if="shouldShow(label)">
+            <label class="label">{{ label }}:</label>
+            <span v-if=!isEditing class="value">{{ profile[label] }}</span>
+            <el-input v-else v-model="editedProfile[label]" class="edit-input" />
+        </div>
       </div>
-  
-      <div class="info-item">
-        <label>ID:</label>
-        <span>{{ profile.studentId }}</span>
-      </div>
-  
-      <div class="info-item">
-        <label>UNI:</label>
-        <span>{{ uni }}</span>
-      </div>
-  
-      <div class="info-item">
-        <label>Email:</label>
-        <span>{{ profile.email }}</span>
-      </div>
-  
-      <div class="info-item">
-        <label>Major:</label>
-        <span>{{ profile.major }}</span>
-      </div>
+      <el-button v-if="isEditing" @click="saveEdit" type="primary" class="save-button">Save</el-button>
     </div>
   </template>
   
   <script>
   export default {
+    props: {
+        isEditing: Boolean
+    },
     mounted() {
         const uni = this.$route.query.uni;
-        this.uni = uni
+        this.profile.uni = uni
+        console.log(uni, this.profile)
+        this.editedProfile = { ...this.profile }
     },
+
     data() {
       return {
-        profile: {
-          name: 'Your Name',
-          studentId: 'Your Student ID',
-          email: 'your.email@example.com',
-          major: 'Your Major'
+        uni: '',
+        editedProfile: { ...this.profile },
+        editable: {
+            id: false
         },
-        uni: ''
+        profile: {
+          id: 1,
+          name: 'Name',
+          uni: this.uni,
+          studentId: 'ID',
+          email: 'Email',
+          major: 'Major',
+        },
       };
-    }
+    },
+    methods: {
+      shouldShow(label) {
+        return !(label === 'id')
+      },
+      saveEdit() {
+        console.log('Save', this.editedProfile);
+        this.editedProfile = { ...this.profile };
+      },
+    },
   };
   </script>
   
@@ -51,18 +56,26 @@
   .profile {
     max-width: 400px;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
   }
   
   .info-item {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 15px;
   }
   
-  label {
+  .label {
     font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .value {
+    color: #333;
+  }
+  
+  .edit-input {
+    width: 200px;
+  }
+  
+  .save-button {
+    margin-top: 10px;
   }
   </style>
