@@ -48,10 +48,10 @@ export default {
           activeTab: 'review', 
           login_user: JSON.parse(localStorage.getItem('user_login_info')),
           review_list: [
-              this.create_review('Abby', 'review1', 'Spring 2024', '2023-11-05 13:34:00', 87),
-              this.create_review('Bob', 'review2', 'Autumn 2024', '2023-11-06 13:34:00', 99),
-              this.create_review('Cindy', 'review3', 'Spring 2024', '2023-11-07 13:34:00', 222),
-              this.create_review('David', 'review4', 'Autumn 2024', '2023-11-08 13:34:00', 23),
+              this.create_review(1, 'Abby', 'review1', 'Spring 2024', '2023-11-05 13:34:00', 87),
+              this.create_review(2, 'Bob', 'review2', 'Autumn 2024', '2023-11-06 13:34:00', 99),
+              this.create_review(3, 'Cindy', 'review3', 'Spring 2024', '2023-11-07 13:34:00', 222),
+              this.create_review(4, 'David', 'review4', 'Autumn 2024', '2023-11-08 13:34:00', 23),
           ],
           review_search_condition: [
              'course_name',
@@ -128,12 +128,13 @@ export default {
       },
 
       edit_profile(e) {
-        this.$router.push({ path: '/profile' , query: { uni: 'natalie', editing: true}});
+        this.$router.push({ path: '/profile' , query: { user_id: 1, editing: true}});
       },
 
-      create_review(username, content, semester, create_time, likes) {
+      create_review(id, username, content, semester, create_time, likes) {
           return {
-              user: {name: username},
+              id: id,
+              user: {id: id, name: username},
               content: content,
               semester: semester,
               create_time: create_time,
@@ -142,7 +143,7 @@ export default {
       },
 
       navigateToProfile() {
-        this.$router.push({ path: '/profile' , query: { uni: 'natalie'}});
+        this.$router.push({ path: '/profile' , query: { user_id: 1}});
       }
   },
 };

@@ -7,6 +7,7 @@ const routes = [
   { path: '/contents',  component:() => import('../components/Content.vue'), props: true }, 
   { path: '/login', component:() => import('../components/Login.vue') },
   { path: '/profile', component:() => import('../components/Profile.vue') , props: (route) => ({ isEditing: route.query.editing === 'true' }),},
+  { path: '/review', component:() => import('../components/ReviewDetail.vue')},
 ];
 
 const router = createRouter({

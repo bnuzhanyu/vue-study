@@ -2,13 +2,17 @@
   <div v-if="review_in_list">
     <div class="header">
       <div class="author">
-        <el-avatar>{{review.user.name}}</el-avatar>
+        <router-link :to="{ path: '/profile', query: { user_id: review.user.id } }" class="router-link">
+          <el-avatar>{{ review.user.name }}</el-avatar>
+        </router-link>
       </div>
       <div class="likes">likes:{{ review.likes }}</div>
       <div class="timestamp">{{review.create_time}}</div>
     </div>
     <div class="contentbox">
-      <div class="content">{{ review.content }}</div>
+      <router-link :to="{ path: '/review', query: { review_id: review.id } }" class="router-link">
+        <div class="content">{{ review.content }}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -39,6 +43,11 @@ export default {
   align-items: center;
   background-color: rgb(255, 243, 68);
   font-size: 18px;
+}
+
+.router-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .author {

@@ -2,8 +2,8 @@
 <template>
     <div class="reviews">
         <div v-for="item in review_list">
-            <Review :review_in_list=true :review="item"/>
             <br>
+            <Review :review_in_list=true :review="item"/>
         </div>
     </div>
 </template>
@@ -14,19 +14,6 @@ export default {
 
     components: {
         Review
-    },
-
-    methods: {
-
-        create_review(username, content, semester, create_time, likes) {
-            return {
-                'user': {'name': username},
-                'content': content,
-                'semester': semester,
-                'create_time': create_time,
-                'likes': likes,
-            }
-        }
     },
 
     props: {
