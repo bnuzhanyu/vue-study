@@ -1,16 +1,6 @@
 <template>
   <div id="app">
-    <div class="header">
-      <div class="banner">
-          <p>Sweety Course</p>
-      </div>
-      <!-- avatar in up right -->
-      <div class="user-info" @click="navigateToProfile">
-          <el-avatar :size="45" :src=login_user.avatar></el-avatar>
-          <!-- <div class="name">{{ login_user.name.split('@')[0] }}</div> -->
-      </div>
-      <el-button type="primary" @click="edit_profile">Edit</el-button>
-    </div>
+    <Banner/>
 
     <div class="container">
       <el-tabs class="tabs" tab-position=left type=border-card stretch=true style="width: 100%;">
@@ -23,7 +13,9 @@
                   </el-select>
                 </div>
               <el-button type="primary" @click="review_search">Search</el-button>
+              <el-button type="primary" @click="post_new_review">New Review</el-button>
             </div>
+            
             <ReviewList :review_list="review_list"></ReviewList>
             <el-pagination background layout="prev, pager, next" :total="review_page_info.total" @current-change="review_page_change"/>
           </el-tab-pane>
@@ -38,6 +30,8 @@
 
 <script>
 import ReviewList from '../components/ReviewList.vue'
+import Banner from '../components/Banner.vue'
+
 export default {
   created() {
 
@@ -46,7 +40,6 @@ export default {
   data() {
       return {
           activeTab: 'review', 
-          login_user: JSON.parse(localStorage.getItem('user_login_info')),
           review_list: [
               this.create_review(1, 'Abby', 'review1', 'Spring 2024', '2023-11-05 13:34:00', 87),
               this.create_review(2, 'Bob', 'review2', 'Autumn 2024', '2023-11-06 13:34:00', 99),
@@ -95,13 +88,12 @@ export default {
             modes_of_instruction: [
               {value: 'mode1', label: 'mode2'},
               {value: 'mode2', label: 'mode2'},
-
             ]
 
           },
           review_page_info: { 
             page: 1,
-            total: 1000,
+            total: 30,
             page_size: 10,
           },
       };
@@ -122,9 +114,18 @@ export default {
         //TODO: search for review_search_selected of page 1
       },
 
+      logout() {
+        localStorage.removeItem('user_login_info')
+        this.$router.push({ path: '/login' })
+      },
+
       review_page_change(page) {
         this.review_page_info.page = page
         //TODO: search page
+      },
+
+      post_new_review() {
+        this.$router.push({ path: '/reviewedit' });
       },
 
       edit_profile(e) {
@@ -155,30 +156,6 @@ export default {
   flex-direction: column;
   align-items: flex-end;
   padding: 20px;
-}
-
-.header {
-  flex: 1;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  background-color: cadetblue;
-}
-.banner {
-  width: 80%;
-  font-size: 2em;
-  text-align: center;
-}
-
-.user-info {
-  display: flex;
-  align-items: center; 
-  margin-right: 20px;
-}
-
-.user-info .name {
-  margin-left: 20px;
-  margin-right: 10px;
 }
 
 .container {
