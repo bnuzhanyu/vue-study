@@ -33,14 +33,15 @@ import profileApi from '../utils/profile';
 import courseApi from '../utils/course';
 
 export default {
-  props: {
-    isEditing: Boolean
-  },
+
   created() {
     this.fullfill_profile()
   },
   mounted() {
     const user_id = this.$route.query.user_id;
+    if (user_id == 0) {
+      this.isEditing = true
+    }
     this.profile = profileApi.get_profile_by_id(user_id)
     console.log(user_id, this.profile)
     this.editedProfile = { ...this.profile }
@@ -50,6 +51,7 @@ export default {
 
   data() {
     return {
+      isEditing: false,
       editable_fields: ['name', 'uni', 'email'],
       user_id: 0,
       editedProfile: {},

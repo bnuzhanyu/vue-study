@@ -40,7 +40,7 @@ export default {
     },
 
     edit_profile(e) {
-      this.$router.push({ path: '/profile', query: { user_id: 0, editing: true } });
+      this.$router.push({ path: '/profile', query: { user_id: 0} });
     },
 
     // navigateToProfile() {
