@@ -1,78 +1,91 @@
 <template>
-    <div class="header">
-      <div class="banner">
-          <p>Sweety Course</p>
-      </div>
-      <!-- avatar in up right -->
-      <div class="user-info" @click="navigateToProfile">
-          <el-avatar :size="45" :src=login_user.avatar></el-avatar>
-          <!-- <div class="name">{{ login_user.name.split('@')[0] }}</div> -->
-      </div>
-      <el-button type="primary" @click="edit_profile">Edit</el-button>
-      <el-button type="danger" @click="logout">Logout</el-button>
+  <div class="header">
+    <div class="banner">
+      <p>Sweety Course</p>
     </div>
+    <el-dropdown @command="handleDropdownCommand">
+      <span class="user-info" slot="dropdown">
+        <el-avatar class="avatar" :size="45" :src="login_user.avatar"></el-avatar>
+        <!-- <div class="name">{{ login_user.name.split('@')[0] }}</div> -->
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu class="dropdown-menu">
+          <el-dropdown-item command="edit_profile">Edit</el-dropdown-item>
+          <el-dropdown-item command="logout">Logout</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </div>
 </template>
 
 <script>
+
+import loginInfo from '../utils/login'
+
 export default {
   created() {
 
   },
 
   data() {
-      return {
-          login_user: JSON.parse(localStorage.getItem('user_login_info')),
-      };
+    return {
+      login_user: loginInfo.get_login_info()
+    };
   },
 
   methods: {
+    logout() {
+      loginInfo.remove_login_info()
+      this.$router.push({ path: '/login' })
+    },
 
-      logout() {
-        localStorage.removeItem('user_login_info')
-        this.$router.push({ path: '/login' })
-      },
+    edit_profile(e) {
+      this.$router.push({ path: '/profile', query: { user_id: 0, editing: true } });
+    },
 
-      edit_profile(e) {
-        this.$router.push({ path: '/profile' , query: { user_id: 1, editing: true}});
-      },
+    // navigateToProfile() {
+    //   this.$router.push({ path: '/profile' , query: { user_id: 1}});
+    // },
 
-      navigateToProfile() {
-        this.$router.push({ path: '/profile' , query: { user_id: 1}});
+    handleDropdownCommand(command) {
+      if (command === 'edit_profile') {
+        this.edit_profile();
+      } else if (command === 'logout') {
+        this.logout();
       }
+    },
   },
 };
 </script>
 
 <style scoped>
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 20px;
-}
-
 .header {
   flex: 1;
   display: flex;
   width: 100%;
   align-items: center;
   background-color: cadetblue;
+  text-align: center;
 }
+
 .banner {
-  width: 80%;
+  width: 100%;
   font-size: 2em;
   text-align: center;
 }
 
 .user-info {
   display: flex;
-  align-items: center; 
-  margin-right: 20px;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
 }
 
-.user-info .name {
-  margin-left: 20px;
-  margin-right: 10px;
+.dropdown-menu {
+  width: 100px;
 }
 
+:deep(.el-tooltip__trigger:focus-visible) {
+  outline: unset;
+}
 </style>
